@@ -4,11 +4,11 @@ set -eo pipefail
 SECONDS=0
 
 # required environment variables
-: "${ACCESS_KEY_ID:?Please set the environment variable.}"
+: "${S3_ACCESS_KEY_ID:?Please set the environment variable.}"
 : "${S3_REGION:?Please set the environment variable.}"
 : "${S3_ENDPOINT:?Please set the environment variable.}"
 : "${S3_BUCKET:?Please set the environment variable.}"
-: "${SECRET_ACCESS_KEY:?Please set the environment variable.}"
+: "${S3_SECRET_ACCESS_KEY:?Please set the environment variable.}"
 : "${POSTGRES_DB:?Please set the environment variable.}"
 : "${POSTGRES_PASSWORD:?Please set the environment variable.}"
 
@@ -44,7 +44,7 @@ echo "Uploading to S3..."
 rclone copyto \
   --s3-no-check-bucket \
   "./${BACKUP_FILE_NAME}" \
-  ":s3,access_key_id=${ACCESS_KEY_ID},provider=${S3_PROVIDER},region=${S3_REGION},secret_access_key=${SECRET_ACCESS_KEY},endpoint=${S3_ENDPOINT}:${S3_BUCKET}/${BACKUP_FILE_NAME}"
+  ":s3,access_key_id=${S3_ACCESS_KEY_ID},provider=${S3_PROVIDER},region=${S3_REGION},secret_access_key=${S3_SECRET_ACCESS_KEY},endpoint=${S3_ENDPOINT}:${S3_BUCKET}/${BACKUP_FILE_NAME}"
 echo "Uploading to S3... Done."
 
 if [ -n "${WEBGAZER_HEARTBEAT_URL}" ]; then
